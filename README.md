@@ -30,6 +30,8 @@ Java虚拟机(Java Virtual Machine，简称JVM)是运行所有Java程序的抽�
 
 ![JVM的位置](images/JVM的位置.png)
 
+<center>图1 JVM的位置</center>
+
 ## JVM调优的位置
 
 ![类加载器](images/类加载器.png)
@@ -252,7 +254,11 @@ public class Student {
 
 ## 栈
 
+栈是一种数据结构，又称栈内存，主管程序的运行，生命周期和线程同步。线程结束，栈内存也就是释放了。对于栈来说，不存在垃圾回收问题，一旦线程结束，栈就over了。
 
+栈存放：8大基本类型+对象的引用+实例的方法
+
+栈运行的原理：栈帧
 
 ## 三种JVM
 

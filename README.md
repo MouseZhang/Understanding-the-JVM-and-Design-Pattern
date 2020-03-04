@@ -153,5 +153,69 @@ public class String {
 否则 JavaFX 应用程序类必须扩展javafx.application.Application
 ```
 
+## 沙箱安全机制
 
+## Native
+
+**范例：** 编写一个多线程启动类
+
+```java
+package cn.ustb;
+
+public class NativeDemo {
+    public static void main(String[] args) {
+        new Thread(()->{
+
+        }, "myThread").start();
+    }
+
+    /*
+        1、凡是带有native关键字，就说明Java的范围达不到了，调用的是底层C语言的库；
+        2、它会进入本地方法栈，会调用JNI接口，从而调用本地方法库，来扩展Java的使用；
+        3、本地方法接口，JNI(Java Native Interface)；
+        4、JNI的作用：扩展Java的使用，融合不同的编程语言为Java所用；
+        5、Java在内存区域中专门开辟了一块标记区域：Native Method Stack来登记native方法；
+        6、在最终执行的时候，通过JNI加载本地方法库中的方法，例如Java程序驱动打印机。
+     */
+    private native void start0();
+
+}
+```
+
+**范例：** 查看start方法的源码
+
+```java
+public synchronized void start() {
+    if (threadStatus != 0)
+        throw new IllegalThreadStateException();
+
+    group.add(this);
+
+    boolean started = false;
+    try {
+        start0();
+        started = true;
+    } finally {
+        try {
+            if (!started) {
+                group.threadStartFailed(this);
+            }
+        } catch (Throwable ignore) {
+        }
+    }
+}
+
+// 注意native关键字
+private native void start0();
+```
+
+在Java程序中，凡是带有native关键字，就说明Java调用的底层C语言的库；它会进入本地方法栈，会调用JNI接口，从而调用本地方法库，来扩展Java的使用；JNI的作用：扩展Java的使用，融合不同的编程语言为Java所用；JVM会在在内存区域中专门开辟了一块标记区域：Native Method Stack来登记native方法；在最终执行的时候，通过JNI加载本地方法库中的方法，如：Java程序驱动打印机。
+
+## PC寄存器
+
+## 方法区
+
+## 栈
+
+## 三种JVM
 

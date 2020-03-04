@@ -360,7 +360,7 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 
 ![元空间](images/元空间.png)
 
-**元空间：逻辑上存在，物理上不存在。**
+元空间：**逻辑上存在，物理上不存在。**
 
 **范例：** 查看JVM参数
 

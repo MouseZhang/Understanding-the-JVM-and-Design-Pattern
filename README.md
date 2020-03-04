@@ -209,6 +209,8 @@ public synchronized void start() {
 private native void start0();
 ```
 
+**JNI：Java Native Interface(Java本地方法接口)**
+
 在Java程序中，凡是带有native关键字，就说明Java调用的底层C语言的库；它会进入本地方法栈，会调用JNI接口，从而调用本地方法库，来扩展Java的使用；JNI的作用：扩展Java的使用，融合不同的编程语言为Java所用；JVM会在在内存区域中专门开辟了一块标记区域：Native Method Stack来登记native方法；在最终执行的时候，通过JNI加载本地方法库中的方法，如：Java程序驱动打印机。
 
 ## PC寄存器

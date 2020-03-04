@@ -215,9 +215,44 @@ private native void start0();
 
 ## PC寄存器
 
+**程序计数器：Program Counter Register**
+
+每个线程都有一个程序计数器，是线程私有的，它就是一个指针，指向方法区中的方法字节码（用来存储指向一条指令的地址，也就是要执行的指令代码），用于执行引擎读取下一条指令，占用非常小的内存空间，可忽略不计。
+
+![程序计数器](images/程序计数器.png)
+
 ## 方法区
 
+**方法区：Method Area**
+
+方法区是被所有线程共享，所有字段和方法字节码，以及一些特殊方法，如构造函数，接口代码也在此定义。简单地说，所有定义的方法信息都保存在该区域，**此区域属于共享区域**。
+
+**静态变量(static)、常量(final)、类信息(构造方法、接口定义)、运行时的常量池也保存在方法区中。但是实例变量存在堆内存中，和方法区无关。**
+
+**方法区保存：static、final、Class、常量池。**
+
+**范例：** 创建一个Student类
+
+```java
+package cn.ustb;
+
+public class Student {
+    private int age;
+    private String name = "ALLEN";
+
+    public static void main(String[] args) {
+        Student stu = new Student();
+        stu.age = 10;
+        stu.name = "SMITH";
+    }
+}
+```
+
+![方法区](images/方法区.png)
+
 ## 栈
+
+
 
 ## 三种JVM
 

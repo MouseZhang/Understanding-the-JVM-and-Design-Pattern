@@ -2,7 +2,7 @@
 
 # Java虚拟机与设计模式总结
 
-Java虚拟机(Java Virtual Machine，简称JVM)是运行所有Java程序的抽象计算机，是Java语言的运行环境。本文是在学习《[深入理解Java虚拟机](/books)》一书之后的总结，罗列出笔者认为需要重点掌握的知识点。
+Java虚拟机(Java Virtual Machine，简称JVM)是运行所有Java程序的抽象计算机，是Java语言的运行环境。本文总结了一些重点需要掌握的知识点，更多详情内容请参考《[深入理解Java虚拟机](/books)》。
 
 ## 目录
 
@@ -17,7 +17,8 @@ Java虚拟机(Java Virtual Machine，简称JVM)是运行所有Java程序的抽�
 - [栈](#)
 - [三种JVM](#)
 - [堆](#)
-- [新生区、老年区](#)
+- [新生区](#)
+- [老年区](#)
 - [永久区](#)
 - [堆内存调优](#)
 - [GC常用算法](#)
@@ -155,6 +156,10 @@ public class String {
 
 ## 沙箱安全机制
 
+Java安全模型的核心就是Java沙箱，它是一个限制程序运行的环境。沙箱机制就是将 Java 代码限定在JVM特定的运行范围中，并且严格限制代码对本地系统资源访问，通过这样的措施来保证对代码的有效隔离，防止对本地系统造成破坏。沙箱**主要限制系统资源访问**，这里的系统资源包括CPU、内存、文件系统和网络。
+
+  所有的Java程序运行都可以指定沙箱，来定制安全策略。
+
 ## Native
 
 **范例：** 编写一个多线程启动类
@@ -262,7 +267,7 @@ public class Student {
 
 Java方法可以以两种方式完成。一种通过return返回的，称为正常返回；另一种是通过抛出异常而异常终止的。不管以哪种方式返回，虚拟机都会将当前帧弹出Java栈然后释放掉，这样上一个方法的帧就成为当前帧了。
 
-栈溢出：StackOverflowError。
+栈溢出：**StackOverflowError**。
 
 **栈内存保存：8大基本类型、对象的引用、实例的方法。**
 
@@ -274,11 +279,191 @@ Java方法可以以两种方式完成。一种通过return返回的，称为正�
 
 ## 三种JVM
 
+- SUN公司：`HotSpot`
+- BEA公司：`JRockit`
+- IBM公司：`J9 VM`
+
 ## 堆
 
-## 新生区、老年区
+堆(Heap)，一个JVM只有一个堆内存，堆内存的大小是可以调节的。
+
+类加载器读取类文件后，一般会把类、方法、变量、常量保存到堆中，堆中保存的是引用类型的真实对象。
+
+堆内存中可以分为以下三个区域：
+
+- **新生区**：YoungGen
+- **养老区**：OldGen
+- **永久区**：PermGen
+
+![堆内存](images/堆内存.png)
+
+GC垃圾回收，主要针对的是新生区和养老区进行的。
+
+堆溢出：**OutOfMemoryError**。
+
+**范例：** 堆内存溢出
+
+```java
+package cn.ustb;
+import java.util.Random;
+
+public class HeapDemo {
+    public static void main(String[] args) {
+        String str = "Hello World!!!";
+        while (true) {
+            str += str + new Random().nextInt(888888888) + new Random().nextInt(888888888);
+        }
+    }
+}
+```
+
+**程序执行结果：**
+
+```
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+	at java.util.Arrays.copyOf(Arrays.java:3332)
+	at java.lang.AbstractStringBuilder.ensureCapacityInternal(AbstractStringBuilder.java:124)
+	at java.lang.AbstractStringBuilder.append(AbstractStringBuilder.java:674)
+	at java.lang.StringBuilder.append(StringBuilder.java:208)
+	at cn.ustb.HeapDemo.main(HeapDemo.java:9)
+```
+
+在JDK1.8版本废弃了永久区，替代的是元空间(MetaSpace)，元空间与永久区上类似，都是方法区的实现，最大的区别是：元空间并不在JVM中，而是使用本地内存。
+
+移除永久区原因：为融合HotSpot JVM与JRockit VM而做出的改变，因为JRockit没有永久区。有了元空间就不再会出现永久区OOM问题了！
+
+## 新生区
+
+一个类在新生区中可能是诞生、成长和死亡。
+
+伊甸园区：所有的对象都是在伊甸园区创建(new)出来。当伊甸园区满时，会触发一次轻GC。
+
+幸存者区：幸存者区(Survival)与伊甸园区(Eden)相同都在Java堆的新生区。Survival区有两块，一块称为from区，另一块为to区，这两个区是相对的，在发生一次Minor GC后，from区就会和to区互换。在发生Minor GC时，Eden区和Survival from区会把一些仍然存活的对象复制进Survival to区，并清除内存。Survival to区会把一些存活得足够旧的对象移至老年区。
+
+## 老年区
+
+老年区里存放的都是存活时间较久的，大小较大的对象，因此老年区使用标记整理算法。当老年区容量满的时候，会触发一次Major GC(Full GC)，回收老年区和新生区中不再被使用的对象资源。
 
 ## 永久区
+
+永久区是常驻内存的，一般用来存放JDK自身携带的Class对象，包括接口元数据，存储的是一些Java运行时的环境或类信息，永久区不存在垃圾回收，关闭虚拟机就会释放内存。
+
+当一个启动类加载了大量的第三方JAR包、Tomcat部署了太多的应用、大量动态生成的反射类都会导致堆溢出(OOM)。
+
+|  JDK版本   |           永久区的变化           |
+| :--------: | :------------------------------: |
+| JDK1.6之前 |      永久代，常量池在方法区      |
+|   JDK1.7   | 永久代，去永久代，常量池在堆内存 |
+| JDK1.8之后 |     无永久代，常量池在元空间     |
+
+![永生区](images/永生区.png)
+
+![元空间](images/元空间.png)
+
+**元空间：逻辑上存在，物理上不存在。**
+
+**范例：** 查看JVM参数
+
+```java
+package cn.ustb;
+
+public class HeapOptDemo {
+    public static void main(String[] args) {
+        long maxMemory = Runtime.getRuntime().maxMemory();// 返回JVM可以使用的最大内存
+        long totalMemory = Runtime.getRuntime().totalMemory();// 返回JVM的总内存
+        /*
+            默认情况下，初始化内存占本机的1/64，可使用的最大内存占本机的1/4
+         */
+        System.out.println("JVM可使用的最大内存为：" + maxMemory + "字节，约为" + (maxMemory/(double)1024/1024) + "MB");
+        System.out.println("JVM的总内存为：" + maxMemory + "字节，约为" + (totalMemory/(double)1024/1024) + "MB");
+    }
+}
+
+```
+
+**程序执行结果：**
+
+```
+JVM可使用的最大内存为：954728448字节，约为910.5MB
+JVM的总内存为：954728448字节，约为61.5MB
+```
+
+默认情况下，初始化内存占本机的1/64，可使用的最大内存占本机的1/4。
+
+![JVM参数](images/JVM参数.png)
+
+**程序执行结果：**
+
+```
+JVM可使用的最大内存为：1029177344字节，约为981.5MB
+JVM的总内存为：1029177344字节，约为981.5MB
+Heap
+ PSYoungGen      total 305664K, used 15729K [0x00000007aab00000, 0x00000007c0000000, 0x00000007c0000000)
+  eden space 262144K, 6% used [0x00000007aab00000,0x00000007aba5c420,0x00000007bab00000)
+  from space 43520K, 0% used [0x00000007bd580000,0x00000007bd580000,0x00000007c0000000)
+  to   space 43520K, 0% used [0x00000007bab00000,0x00000007bab00000,0x00000007bd580000)
+ ParOldGen       total 699392K, used 0K [0x0000000780000000, 0x00000007aab00000, 0x00000007aab00000)
+  object space 699392K, 0% used [0x0000000780000000,0x0000000780000000,0x00000007aab00000)
+ Metaspace       used 3129K, capacity 4496K, committed 4864K, reserved 1056768K
+  class space    used 343K, capacity 388K, committed 512K, reserved 1048576K
+```
+
+**设置运行的堆内存参数：**-Xms1024m -Xmx1024m -XX:+PrintGCDetails
+
+**出现OOM情况时分析步骤：**
+
+- 尝试扩大堆内存查看程序运行情况
+- 若还出现OOM，分析原因，找出有问题的代码修改(专业工具)
+
+**范例：** 查看OOM的输出情况
+
+```java
+package cn.ustb;
+import java.util.Random;
+
+// -Xms8m -Xmx8m -XX:+PrintGCDetails
+public class HeapDemo {
+    public static void main(String[] args) {
+        String str = "Hello World!!!";
+        while (true) {
+            str += str + new Random().nextInt(888888888) + new Random().nextInt(888888888);
+        }
+    }
+}
+```
+
+**程序执行结果：**
+
+```
+[GC (Allocation Failure) [PSYoungGen: 1522K->495K(2048K)] 1522K->503K(7680K), 0.0482829 secs] [Times: user=0.01 sys=0.00, real=0.05 secs] 
+[GC (Allocation Failure) [PSYoungGen: 1929K->507K(2048K)] 1937K->788K(7680K), 0.0018254 secs] [Times: user=0.01 sys=0.01, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 1571K->507K(2048K)] 1853K->1056K(7680K), 0.0016456 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 1562K->288K(2048K)] 3116K->2344K(7680K), 0.0013597 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[Full GC (Ergonomics) [PSYoungGen: 840K->0K(2048K)] [ParOldGen: 5071K->2877K(5632K)] 5911K->2877K(7680K), [Metaspace: 3063K->3063K(1056768K)], 0.0060981 secs] [Times: user=0.01 sys=0.00, real=0.01 secs] 
+[GC (Allocation Failure) [PSYoungGen: 1040K->96K(2048K)] 4923K->4983K(7680K), 0.0006954 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[Full GC (Ergonomics) [PSYoungGen: 96K->0K(2048K)] [ParOldGen: 4887K->2376K(5632K)] 4983K->2376K(7680K), [Metaspace: 3069K->3069K(1056768K)], 0.0054872 secs] [Times: user=0.02 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 39K->96K(2048K)] 4426K->4482K(7680K), 0.0008183 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 96K->64K(2048K)] 4482K->4450K(7680K), 0.0004159 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[Full GC (Allocation Failure) [PSYoungGen: 64K->0K(2048K)] [ParOldGen: 4386K->3382K(5632K)] 4450K->3382K(7680K), [Metaspace: 3083K->3083K(1056768K)], 0.0064401 secs] [Times: user=0.02 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 0K->0K(2048K)] 3382K->3382K(7680K), 0.0005774 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[Full GC (Allocation Failure) [PSYoungGen: 0K->0K(2048K)] [ParOldGen: 3382K->3362K(5632K)] 3382K->3362K(7680K), [Metaspace: 3083K->3083K(1056768K)], 0.0065209 secs] [Times: user=0.02 sys=0.00, real=0.01 secs] 
+Heap
+ PSYoungGen      total 2048K, used 85K [0x00000007bfd80000, 0x00000007c0000000, 0x00000007c0000000)
+  eden space 1536K, 5% used [0x00000007bfd80000,0x00000007bfd954d8,0x00000007bff00000)
+  from space 512K, 0% used [0x00000007bff80000,0x00000007bff80000,0x00000007c0000000)
+  to   space 512K, 0% used [0x00000007bff00000,0x00000007bff00000,0x00000007bff80000)
+ ParOldGen       total 5632K, used 3362K [0x00000007bf800000, 0x00000007bfd80000, 0x00000007bfd80000)
+  object space 5632K, 59% used [0x00000007bf800000,0x00000007bfb48ad8,0x00000007bfd80000)
+ Metaspace       used 3125K, capacity 4496K, committed 4864K, reserved 1056768K
+  class space    used 344K, capacity 388K, committed 512K, reserved 1048576K
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+	at java.util.Arrays.copyOf(Arrays.java:3332)
+	at java.lang.AbstractStringBuilder.ensureCapacityInternal(AbstractStringBuilder.java:124)
+	at java.lang.AbstractStringBuilder.append(AbstractStringBuilder.java:674)
+	at java.lang.StringBuilder.append(StringBuilder.java:208)
+	at cn.ustb.HeapDemo.main(HeapDemo.java:9)
+
+```
 
 ## 堆内存调优
 

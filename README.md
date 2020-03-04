@@ -408,7 +408,7 @@ Heap
   class space    used 343K, capacity 388K, committed 512K, reserved 1048576K
 ```
 
-**设置运行的堆内存参数：**-Xms1024m -Xmx1024m -XX:+PrintGCDetails
+**设置运行的堆内存参数：** `-Xms1024m -Xmx1024m -XX:+PrintGCDetails`
 
 **出现OOM情况时分析步骤：**
 
@@ -466,6 +466,72 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 ```
 
 ## 堆内存调优
+
+在项目开发中，如果程序突然出现OOM，排除故障的方式可以为：
+
+- 使用内存快照分析工具，如：MAT、JProfiler等找出代码在第几行出错
+- Debug，一行一行分析代码...
+
+MAT、JProfiler工具的作用：
+
+- 分析Dump内存文件，快速定位内存泄漏问题
+- 查看堆内存中的数据
+- 查看占用堆中的大对象
+
+**范例：** 创建HeapDumpDemo程序
+
+```java
+package cn.ustb;
+import java.util.ArrayList;
+import java.util.List;
+
+// -Xms1m -Xmx8m -XX:+HeapDumpOnOutOfMemoryError
+public class HeapDumpDemo {
+
+    byte[] array = new byte[1*1024*1024]; // 1MB
+
+    public static void main(String[] args) {
+        List<HeapDumpDemo> list = new ArrayList<>();
+        int count = 0; // 用于记录代码出错的行数
+        try {
+            while (true) {
+                list.add(new HeapDumpDemo());
+                count++;
+            }
+        } catch (Error e) {
+            System.out.println("count = " + count);
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+**设置运行的堆内存参数：** `-Xms1m -Xmx8m -XX:+HeapDumpOnOutOfMemoryError`
+
+**程序执行结果：**
+
+```
+java.lang.OutOfMemoryError: Java heap space
+Dumping heap to java_pid32038.hprof ...
+Heap dump file created [6290447 bytes in 0.058 secs]
+count = 5
+java.lang.OutOfMemoryError: Java heap space
+	at cn.ustb.HeapDumpDemo.<init>(HeapDumpDemo.java:8)
+	at cn.ustb.HeapDumpDemo.main(HeapDumpDemo.java:15)
+```
+
+使用JProfiler查看Dump文件。
+
+![BiggestObject](images/BiggestObject.png)
+
+![main](images/main.png)
+
+**常见的堆内存参数**
+
+- **-Xms**：设置初始化内存分配大小(1/64)
+- **-Xmx**：设置可分配的最大内存(1/4)
+- **-XX:+PrintGCDetails**：打印GC垃圾回收信息
+- **-XX:+HeapDumpOnOutOfMemoryError**：OOM Dump
 
 ## GC常用算法
 

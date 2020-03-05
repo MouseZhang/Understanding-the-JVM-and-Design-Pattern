@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e56e2dc1-2559-4412-bdfd-7346f2fa0d25" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="$PROJECT_DIR$/../../../maven3libs" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../maven/apache-maven-3.5.0" />
+        <option name="userSettingsFile" value="$PROJECT_DIR$/../../../maven/apache-maven-3.5.0/conf/settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1YeXJVsVIgRWSNJwS1mJ6GOFdpy" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="jprofiler" />
+  </component>
+  <component name="RunManager" selected="Application.HeapDumpDemo">
+    <configuration name="Car" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.ustb.Car" />
+      <module name="JVMModule" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.ustb.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HeapDemo" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.ustb.HeapDemo" />
+      <module name="JVMModule" />
+      <option name="VM_PARAMETERS" value="-Xms8m -Xmx8m -XX:+PrintGCDetails" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.ustb.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HeapDumpDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.ustb.HeapDumpDemo" />
+      <module name="JVMModule" />
+      <option name="VM_PARAMETERS" value="-Xms1m -Xmx8m -XX:+HeapDumpOnOutOfMemoryError" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.ustb.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HeapOptDemo" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.ustb.HeapOptDemo" />
+      <module name="JVMModule" />
+      <option name="VM_PARAMETERS" value="-Xms1024m -Xmx1024m -XX:+PrintGCDetails" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.ustb.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Car" />
+      <item itemvalue="Application.HeapDemo" />
+      <item itemvalue="Application.HeapOptDemo" />
+      <item itemvalue="Application.HeapDumpDemo" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.HeapDumpDemo" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e56e2dc1-2559-4412-bdfd-7346f2fa0d25" name="Default Changelist" comment="" />
+      <created>1583303961778</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1583303961778</updated>
+      <workItem from="1583303964516" duration="7553000" />
+      <workItem from="1583337254319" duration="2180000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="0" y="62" width="895" height="519" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583339480666">
+      <screen x="0" y="23" width="1280" height="712" />
+    </state>
+    <state x="108" y="44" width="838" height="519" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.707@0.23.1280.707" timestamp="1583335263158" />
+    <state x="108" y="44" width="838" height="519" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.709@0.23.1280.709" timestamp="1583334890330" />
+    <state x="0" y="62" width="895" height="519" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.712@0.23.1280.712" timestamp="1583339480666" />
+    <state x="478" y="126" key="FileChooserDialogImpl" timestamp="1583337843055">
+      <screen x="0" y="23" width="1280" height="709" />
+    </state>
+    <state x="478" y="126" key="FileChooserDialogImpl/0.23.1280.709@0.23.1280.709" timestamp="1583337843055" />
+    <state width="1238" height="261" key="GridCell.Tab.0.bottom" timestamp="1583339485736">
+      <screen x="0" y="23" width="1280" height="712" />
+    </state>
+    <state width="1159" height="229" key="GridCell.Tab.0.bottom/0.23.1280.701@0.23.1280.701" timestamp="1583305309648" />
+    <state width="1266" height="228" key="GridCell.Tab.0.bottom/0.23.1280.707@0.23.1280.707" timestamp="1583327528351" />
+    <state width="1266" height="228" key="GridCell.Tab.0.bottom/0.23.1280.709@0.23.1280.709" timestamp="1583334891986" />
+    <state width="1238" height="261" key="GridCell.Tab.0.bottom/0.23.1280.712@0.23.1280.712" timestamp="1583339485736" />
+    <state width="1266" height="229" key="GridCell.Tab.0.bottom/0.23.1280.714@0.23.1280.714" timestamp="1583309277157" />
+    <state width="1238" height="261" key="GridCell.Tab.0.center" timestamp="1583339485735">
+      <screen x="0" y="23" width="1280" height="712" />
+    </state>
+    <state width="1159" height="229" key="GridCell.Tab.0.center/0.23.1280.701@0.23.1280.701" timestamp="1583305309646" />
+    <state width="1266" height="228" key="GridCell.Tab.0.center/0.23.1280.707@0.23.1280.707" timestamp="1583327528350" />
+    <state width="1266" height="228" key="GridCell.Tab.0.center/0.23.1280.709@0.23.1280.709" timestamp="1583334891985" />
+    <state width="1238" height="261" key="GridCell.Tab.0.center/0.23.1280.712@0.23.1280.712" timestamp="1583339485735" />
+    <state width="1266" height="229" key="GridCell.Tab.0.center/0.23.1280.714@0.23.1280.714" timestamp="1583309277156" />
+    <state width="1238" height="261" key="GridCell.Tab.0.left" timestamp="1583339485734">
+      <screen x="0" y="23" width="1280" height="712" />
+    </state>
+    <state width="1159" height="229" key="GridCell.Tab.0.left/0.23.1280.701@0.23.1280.701" timestamp="1583305309645" />
+    <state width="1266" height="228" key="GridCell.Tab.0.left/0.23.1280.707@0.23.1280.707" timestamp="1583327528349" />
+    <state width="1266" height="228" key="GridCell.Tab.0.left/0.23.1280.709@0.23.1280.709" timestamp="1583334891985" />
+    <state width="1238" height="261" key="GridCell.Tab.0.left/0.23.1280.712@0.23.1280.712" timestamp="1583339485734" />
+    <state width="1266" height="229" key="GridCell.Tab.0.left/0.23.1280.714@0.23.1280.714" timestamp="1583309277155" />
+    <state width="1238" height="261" key="GridCell.Tab.0.right" timestamp="1583339485736">
+      <screen x="0" y="23" width="1280" height="712" />
+    </state>
+    <state width="1159" height="229" key="GridCell.Tab.0.right/0.23.1280.701@0.23.1280.701" timestamp="1583305309647" />
+    <state width="1266" height="228" key="GridCell.Tab.0.right/0.23.1280.707@0.23.1280.707" timestamp="1583327528350" />
+    <state width="1266" height="228" key="GridCell.Tab.0.right/0.23.1280.709@0.23.1280.709" timestamp="1583334891986" />
+    <state width="1238" height="261" key="GridCell.Tab.0.right/0.23.1280.712@0.23.1280.712" timestamp="1583339485736" />
+    <state width="1266" height="229" key="GridCell.Tab.0.right/0.23.1280.714@0.23.1280.714" timestamp="1583309277156" />
+    <state x="199" y="23" width="982" height="709" key="SettingsEditor" timestamp="1583337854504">
+      <screen x="0" y="23" width="1280" height="709" />
+    </state>
+    <state x="199" y="23" width="982" height="709" key="SettingsEditor/0.23.1280.709@0.23.1280.709" timestamp="1583337854504" />
+    <state x="175" y="23" width="982" height="712" key="SettingsEditor/0.23.1280.712@0.23.1280.712" timestamp="1583336508778" />
+    <state x="218" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1583308635267">
+      <screen x="0" y="23" width="1280" height="712" />
+    </state>
+    <state x="218" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.23.1280.712@0.23.1280.712" timestamp="1583308635267" />
+  </component>
+</project>
